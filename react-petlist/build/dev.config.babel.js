@@ -2,6 +2,7 @@ import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import config from '../config';
+
 // var CommonsChunkPlugin = require("../../lib/optimize/CommonsChunkPlugin");
 
 const paths = config.utils_paths;
@@ -26,7 +27,7 @@ const webpackConfig = {
 webpackConfig.entry = {
   index: [
     'webpack-hot-middleware/client?reload=true',
-    `${paths.base(config.dir_example)}\/${config.client_app}`],
+    `${paths.base(config.dir_src)}\/${config.client_app}`],
   vendor: config.compiler_vendor,
 };
 
@@ -43,12 +44,18 @@ webpackConfig.output = {
 // ------------------------------------
 // Plugins
 // ------------------------------------
+
+// Took this (htmlwebpackplugin) out of the plugins because of my tinkering with dev-server config to get browserhistory
+// for react-router working.
+// It was loading my initial component twice
+
+// new HtmlWebpackPlugin({
+//   filename: 'index.html',
+//   inject: 'body',
+//   template: `${paths.base(config.dir_src)}\/${config.client_test_file}`,
+// }),
+
 webpackConfig.plugins = [
-  new HtmlWebpackPlugin({
-    filename: 'index.html',
-    inject: 'body',
-    template: `${paths.base(config.dir_example)}\/${config.client_test_file}`,
-  }),
   new ExtractTextPlugin('index.css', {
       allChunks: true
   }),
